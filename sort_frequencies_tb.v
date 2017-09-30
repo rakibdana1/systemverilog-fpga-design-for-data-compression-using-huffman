@@ -1,61 +1,59 @@
 `timescale 1ns / 1ps
 
-////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer:
+//////////////////////////////////////////////////////////////////////////////////
+// Testbench for module: sort_frequencies
 //
-// Create Date:   14:29:23 06/14/2017
-// Design Name:   sort_frequent
-// Module Name:   F:/ise/workspace/huffman/sort_frequent_test.v
-// Project Name:  huffman
-// Target Device:  
-// Tool versions:  
-// Description: 
-//
-// Verilog Test Fixture created by ISE for module: sort_frequent
-//
-// Dependencies:
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
+// Mohammad Rakib
+// M. Engg. ICT, IICT
 ////////////////////////////////////////////////////////////////////////////////
 
-module sort_frequent_test;
+module sort_frequencies_tb;
 
 	// Inputs
 	reg CLK;
 	reg nRST;
-	reg [15:0] FREQUENT_IN;
+	reg [6:0] freq[0:6];
+	reg [6:0] charsIn[0:6];
 
 	// Outputs
-	wire [31:0] FREQUENT_OUT;
+	wire [6:0] sorted[0:6];
+	wire [6:0] charsOut[0:6];
 
 	// Instantiate the Unit Under Test (UUT)
-	sort_frequent uut (
+	sort_frequencies uut (
 		.CLK(CLK), 
 		.nRST(nRST), 
-		.FREQUENT_IN(FREQUENT_IN), 
-		.FREQUENT_OUT(FREQUENT_OUT)
+		.freq(freq), 
+		.charsIn(charsIn),
+		.sorted(sorted),
+		.charsOut(charsOut)
 	);
 
 	initial begin
 		// Initialize Inputs
 		CLK = 0;
 		nRST = 0;
-		FREQUENT_IN = 16'b0011_0001_0010_0001;
+		freq[0] = 7'd1;
+		freq[1] = 7'd1;
+		freq[2] = 7'd2;
+		freq[3] = 7'd1;
+		freq[4] = 7'd4;
+		freq[5] = 7'd1;
+		freq[6] = 7'd3;
+		charsIn[0] = 7'd1;
+		charsIn[1] = 7'd1;
+		charsIn[2] = 7'd2;
+		charsIn[3] = 7'd1;
+		charsIn[4] = 7'd4;
+		charsIn[5] = 7'd1;
+		charsIn[6] = 7'd3;
 
-		// Wait 100 ns for global reset to finish
-		#100;
+		// Wait 10 ns for global reset to finish
+		#10;
         nRST = 1;
-		// Add stimulus here
-
 	end
 	parameter DELAY = 1;
-	always 
-		#DELAY CLK = ~CLK;
-	
+	always
+		#DELAY CLK = ~CLK; 
       
 endmodule
-

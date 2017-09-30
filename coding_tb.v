@@ -28,10 +28,8 @@ module coding_test;
 		CLK = 0;
 		nRST = 0;
 
-		// Wait 100 ns for global reset to finish
-		#5;
-			nRST = 1;
-		// Add stimulus here
+		#10;
+		nRST = 1;
 
 	end
 	parameter DELAY = 1;

@@ -1,43 +1,43 @@
 `timescale 1ns / 1ps
 
 //////////////////////////////////////////////////////////////////////////////////
-// Sort 2 input numbers using Bubble Sort and return result in SORT_RESULT
-// node1 [7:0]: Bit 4~7: frequency, Bit 0~3: XXXX [Dont care]
-// node2 [7:0]: Bit 4~7: frequency, Bit 0~3: XXXX [Dont care]
-
+// Sort 2 input numbers in freq[2] array and return result in 'sorted'
+// sorted[1][0]: [Most frequent][Least frequent]
+// Caution: Each frequency should be 7 bits.
+//
 // Mohammad Rakib
 // M. Engg. ICT, IICT
 //////////////////////////////////////////////////////////////////////////////////
 
-module sort2(CLK,nRST,node1,node2,new1,new2);
-	input CLK;
-	input nRST;
-	input [7:0] node1;
-	input [7:0] node2;
-	output [7:0] new1;
-	output [7:0] new2;
+module sort2(CLK,nRST,freq,charsIn,sorted, charsOut);
+	input	CLK;
+	input	nRST;
+	input[6:0] freq[0:1];
+	input[6:0] charsIn[0:1];
+	output[6:0] sorted[0:1];
+	output[6:0] charsOut[0:1];
 	
-	reg [7:0] new1;
-	reg [7:0] new2;
+	reg [6:0] sorted[0:1];
+	reg [6:0] charsOut[0:1];
 	
 	always @ (posedge CLK or negedge nRST)
 	begin 
-		if(!nRST)
-			begin
-			new1 <= 8'b0;
-			new2 <= 8'b0;
+		if(!nRST) begin
+			sorted[0] <= 7'b0;
+			sorted[1] <= 7'b0;
+		end
+		else begin
+			sorted[0] <= freq[0];
+			sorted[1] <= freq[1];
+			charsOut[0] <= charsIn[0];
+			charsOut[1] <= charsIn[1];
+			if(freq[0] > freq[1]) begin //If right num is greater then swap
+				sorted[0] <= freq[1];
+				sorted[1] <= freq[0];
+				charsOut[0] <= charsIn[1];
+				charsOut[1] <= charsIn[0];
 			end
-		else
-			begin
-			new1 <= node1;
-			new2 <= node2;
-			if(node1[7:4] > node2[7:4])
-				begin
-				new1 <= node2;
-				new2 <= node1;
-				end
-			else;
-			end
+		end	
 	end
 	
 endmodule

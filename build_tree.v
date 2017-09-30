@@ -1,114 +1,309 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Generate a new tree is to generate the optimal huffman tree
-// weight_Gather: sorted frequencies of 4 symbols
+// freq: Sorted frequency array chars: character array
+// nodes: Nodes array of generated Huffman tree as output
+//
 // Mohammad Rakib
 // M. Engg. ICT, IICT
 //////////////////////////////////////////////////////////////////////////////////
 
-module generate_tree(CLK,nRST,weight_Gather,info_node_1,info_node_2,info_node_3,info_node_4,
-info_node_5,info_node_6,info_node_7);
+module build_tree(CLK,nRST,freq,chars,nodes);
 	input CLK;
 	input nRST;
-	input [31:0] weight_Gather;
-	output [12:0] info_node_1;
-	output [12:0] info_node_2;
-	output [12:0] info_node_3;
-	output [12:0] info_node_4;
-	output [12:0] info_node_5;
-	output [12:0] info_node_6;
-	output [12:0] info_node_7;
+	input [6:0] freq[0:6];
+	input [6:0] chars[0:6];
 
-	// To get sum of frequency -> New nodes in the huffman tree
-	wire [7:0] node_new1;
-	wire [7:0] node_new2;
-	wire [7:0] node_new3;
-	
+	output [23:0] nodes[0:12];//Not considring register for this output.
+
 	//to calculate temp frequencies in huffman tree
-	wire [7:0] temp1; 
-	wire [7:0] temp2;
-	wire [7:0] temp3;
-	wire [7:0] temp4;
-	wire [7:0] temp5;
-	wire [7:0] temp6;
-	
-	// temporary sorted frequency list(queue)
-	wire [7:0] new1; 
-	wire [7:0] new2;
-	wire [7:0] new3;
-	
-	wire [3:0] S0;
-	wire [3:0] S1;
-	wire [3:0] S2;
-	
-	assign S0[3:0] = 4'b0000;     	assign S1[3:0] = 4'b0001;      
-	assign S2[3:0] = 4'b0010;   
-   
-	// get sorted frequencies in the net (1,1,2,3)
-	assign temp1[7:0] = weight_Gather[7:0]; // Least frequent
-	assign temp2[7:0] = weight_Gather[15:8];
-	assign temp3[7:0] = weight_Gather[23:16];
-	assign temp4[7:0] = weight_Gather[31:24]; //Most frequent
+	wire [6:0] new_freq_1; 
+	wire [6:0] new_freq_2;
+	wire [6:0] new_freq_3;
+	wire [6:0] new_freq_4;
+	wire [6:0] new_freq_5;
+	wire [6:0] new_freq_6;
 
-	// Add two least frequncy temp1, temp2 and store it in node_new1
-	add_model add_1(
+   // to store temp frequencies in huffman tree
+	reg[6:0] freq_temp1, freq_temp2;
+	integer i,j;
+
+	// Add two least frequncy and get it on wire new_freq_1
+	always @ (posedge CLK or negedge nRST) begin 
+		if(!nRST) begin
+			// init
+		end 
+		else begin 
+			freq_temp1= freq[0];
+			freq_temp2= freq[1];
+		end
+	end
+
+	add_num add_1(
 		.CLK(CLK),
 		.nRST(nRST),
-		.ADD_1(temp1[7:4]),
-		.ADD_2(temp2[7:4]),
-		.SUM(node_new1[7:4])
-	);
-	assign node_new1[3:0] = node_new1[7:4]; //Bit 4~7: frequency, Bit 0~3: XXXX [Dont care]
-	
-	// Sort new 3 frequencies: 2,3,2 and store them new1,new2,new3
-	sort3 s3(
-		.CLK(CLK),
-		.nRST(nRST),
-		.node1(node_new1[7:0]),
-		.node2(temp3[7:0]),
-		.node3(temp4[7:0]),
-		.new1(new1[7:0]),
-		.new2(new2[7:0]),
-		.new3(new3[7:0])
+		.NUM_1(freq_temp1),
+		.NUM_2(freq_temp2),
+		.SUM(new_freq_1)
 	);
 
-	// Add two least frequncy new1, new2 and store it in node_new2
-	add_model add_2(
-		.CLK(CLK),
-		.nRST(nRST),
-		.ADD_1(new1[7:4]),
-		.ADD_2(new2[7:4]),
-		.SUM(node_new2[7:4])
-	);
-	assign node_new2[3:0] = node_new2[7:4];//Bit 4~7: frequency, Bit 0~3: XXXX [Dont care]. Do we really need this assignment??
+	assign nodes[0] = {8'b0000_0011,1'b0,8'b0000_0001,chars[0]};
+	assign nodes[1] = {8'b0000_0011,1'b1,8'b0000_0010,chars[1]};
 
-	// Sort new 2 frequencies: 4,3 and store them new3, temp5, temp6
-	sort2 s2_2(
+	// Sort new 6 frequencies.
+	reg[6:0] freq_1[0:5];
+	reg[6:0] charsIn_1[0:5];
+	wire[6:0] sorted_1[0:5];
+	wire[6:0] charsOut_1[0:5];
+
+	always @ (posedge CLK or negedge nRST) begin 
+		if(!nRST) begin
+			// init
+		end 
+		else begin 
+			freq_1[0] <= new_freq_1;
+			charsIn_1[0]<=7'b111_1111; //new symbol
+			for(i=1;i<6;i++) begin
+			freq_1[i]=freq[i+1];
+			charsIn_1[i]=chars[i+1];
+			end
+		end
+	end
+	
+	sort6 s1(
 		.CLK(CLK),
 		.nRST(nRST),
-		.node1(node_new2),
-		.node2(new3),
-		.new1(temp5),
-		.new2(temp6)
-	
+		.freq(freq_1),
+		.charsIn(charsIn_1),
+		.sorted(sorted_1),
+		.charsOut(charsOut_1)
 	);
-	
-	// Add two least frequncy temp5 temp6 and store it in node_new3
-	add_model add_3(
+
+//********* STEP-2: *************
+	always @ (posedge CLK or negedge nRST) begin 
+		if(!nRST) begin
+			// init
+		end 
+		else begin 
+			freq_temp1= sorted_1[0];
+			freq_temp2= sorted_1[1];
+		end
+	end	
+
+// Add two least frequncy and get it on wire new_freq_2
+	add_num add_2(
 		.CLK(CLK),
 		.nRST(nRST),
-		.ADD_1(temp5[7:4]),
-		.ADD_2(temp6[7:4]),
-		.SUM(node_new3[7:4])
+		.NUM_1(freq_temp1),
+		.NUM_2(freq_temp2),
+		.SUM(new_freq_2)
 	);
-	assign node_new3[3:0] = node_new3[7:4]; //Bit 4~7: frequency, Bit 0~3: XXXX [Dont care]
+	assign nodes[2] = {8'b0000_0110,1'b0,8'b0000_0100,charsOut_1[0]};
+	assign nodes[3] = {8'b0000_0110,1'b1,8'b0000_0101,charsOut_1[1]};
+
+	// Sort new 5 frequencies.
+	reg[6:0] freq_2[0:4];
+	reg[6:0] charsIn_2[0:4];
+	wire[6:0] sorted_2[0:4];
+	wire[6:0] charsOut_2[0:4];
 	
-	assign info_node_1 = {S0[3:0],1'b0,temp1[7:0]}; //A
-	assign info_node_2 = {S0[3:0],1'b1,temp2[7:0]}; //C
-	assign info_node_3 = {S1[3:0],1'b0,new1[7:0]};  //2
-	assign info_node_4 = {S1[3:0],1'b1,new2[7:0]};  //B
-	assign info_node_5 = {S2[3:0],1'b0,temp5[7:0]}; //D
-	assign info_node_6 = {S2[3:0],1'b1,temp6[7:0]}; //4
-	assign info_node_7 = {5'b1_1111,node_new3[7:0]};//7
+	always @ (posedge CLK or negedge nRST) begin 
+		if(!nRST) begin
+			// init
+		end 
+		else begin 
+			freq_2[0]=new_freq_2;
+			charsIn_2[0]=7'b111_1111; //new symbol
+			for(i=1;i<5;i++) begin
+				freq_2[i]=sorted_1[i+1];
+				charsIn_2[i]=charsOut_1[i+1];
+			end
+		end
+	end	
 	
+	sort5 s2(
+		.CLK(CLK),
+		.nRST(nRST),
+		.freq(freq_2),
+		.charsIn(charsIn_2),
+		.sorted(sorted_2),
+		.charsOut(charsOut_2)
+	);
+
+//********* STEP-3: *************	
+	always @ (posedge CLK or negedge nRST) begin 
+		if(!nRST) begin
+			// init
+		end 
+		else begin 
+			freq_temp1= sorted_2[0];
+			freq_temp2= sorted_2[1];
+		end
+	end		
+
+// Add two least frequncy and get it on wire new_freq_3
+	add_num add_3(
+		.CLK(CLK),
+		.nRST(nRST),
+		.NUM_1(freq_temp1),
+		.NUM_2(freq_temp2),
+		.SUM(new_freq_3)
+	);
+	assign nodes[4] = {8'b0000_1001,1'b0,8'b0000_0111,charsOut_2[0]};
+	assign nodes[5] = {8'b0000_1001,1'b1,8'b0000_1000,charsOut_2[1]};
+
+	// Sort new 4 frequencies.
+	reg[6:0] freq_3[0:3];
+	reg[6:0] charsIn_3[0:3];
+	wire[6:0] sorted_3[0:3];
+	wire[6:0] charsOut_3[0:3];
+	
+	always @ (posedge CLK or negedge nRST) begin 
+		if(!nRST) begin
+			// init
+		end 
+		else begin 
+			freq_3[0]= new_freq_3;
+			charsIn_3[0]= 7'b111_1111; //new symbol
+			for(i=1;i<4;i++) begin
+				freq_3[i]=sorted_2[i+1];
+				charsIn_3[i]=charsOut_2[i+1];
+			end
+		end
+	end	
+	
+	sort4 s3(
+		.CLK(CLK),
+		.nRST(nRST),
+		.freq(freq_3),
+		.charsIn(charsIn_3),
+		.sorted(sorted_3),
+		.charsOut(charsOut_3)
+	);
+
+//********* STEP-4: *************
+	always @ (posedge CLK or negedge nRST) begin 
+		if(!nRST) begin
+			// init
+		end 
+		else begin 
+			freq_temp1= sorted_3[0];
+			freq_temp2= sorted_3[1];
+		end
+	end		
+
+// Add two least frequncy and get it on wire new_freq_4
+	add_num add_4(
+		.CLK(CLK),
+		.nRST(nRST),
+		.NUM_1(freq_temp1),
+		.NUM_2(freq_temp2),
+		.SUM(new_freq_4)
+	);
+	assign nodes[6] = {8'b0000_1111,1'b0,8'b0000_1010,charsOut_3[0]};
+	assign nodes[7] = {8'b0000_1111,1'b1,8'b0000_1011,charsOut_3[1]};
+
+	// Sort new 3 frequencies.
+	reg[6:0] freq_4[0:2];
+	reg[6:0] charsIn_4[0:2];
+	wire[6:0] sorted_4[0:2];
+	wire[6:0] charsOut_4[0:2];
+	
+	always @ (posedge CLK or negedge nRST) begin 
+		if(!nRST) begin
+			// init
+		end 
+		else begin 
+			freq_4[0]= new_freq_4;
+			charsIn_4[0]=7'b111_1111; //new symbol
+			for(i=1;i<3;i++) begin
+				freq_4[i]=sorted_3[i+1];
+				charsIn_4[i]=charsOut_3[i+1];
+			end
+		end
+	end	
+	
+	sort3 s4(
+		.CLK(CLK),
+		.nRST(nRST),
+		.freq(freq_4),
+		.charsIn(charsIn_4),
+		.sorted(sorted_4),
+		.charsOut(charsOut_4)
+	);
+
+//********* STEP-5: *************
+	always @ (posedge CLK or negedge nRST) begin 
+		if(!nRST) begin
+			// init
+		end 
+		else begin 
+			freq_temp1= sorted_4[0];
+			freq_temp2= sorted_4[1];
+		end
+	end		
+
+// Add two least frequncy and get it on wire new_freq_5
+	add_num add_5(
+		.CLK(CLK),
+		.nRST(nRST),
+		.NUM_1(freq_temp1),
+		.NUM_2(freq_temp2),
+		.SUM(new_freq_5)
+	);
+	assign nodes[8] = {8'b0001_0010,1'b0,8'b0001_0000,charsOut_4[0]};
+	assign nodes[9] = {8'b0001_0010,1'b1,8'b0001_0001,charsOut_4[1]};
+
+	// Sort new 2 frequencies.
+	reg[6:0] freq_5[0:1];
+	reg[6:0] charsIn_5[0:1];
+	wire[6:0] sorted_5[0:1];
+	wire[6:0] charsOut_5[0:1];
+	
+	always @ (posedge CLK or negedge nRST) begin 
+		if(!nRST) begin
+			// init
+		end 
+		else begin 
+			freq_5[0]= new_freq_5;
+			charsIn_5[0]=7'b111_1111; //new symbol
+			for(i=1;i<2;i++) begin
+				freq_5[i]=sorted_4[i+1];
+				charsIn_5[i]=charsOut_4[i+1];
+			end
+		end
+	end			
+
+	sort2 s5(
+		.CLK(CLK),
+		.nRST(nRST),
+		.freq(freq_5),
+		.charsIn(charsIn_5),
+		.sorted(sorted_5),
+		.charsOut(charsOut_5)
+	);
+
+	//********* STEP-6: *************
+	always @ (posedge CLK or negedge nRST) begin 
+		if(!nRST) begin
+			// init
+		end 
+		else begin 
+			freq_temp1= sorted_5[0];
+			freq_temp2= sorted_5[1];
+		end
+	end		
+	// Add two least frequncy and get it on wire new_freq_6
+	add_num add_6(
+		.CLK(CLK),
+		.nRST(nRST),
+		.NUM_1(freq_temp1),
+		.NUM_2(freq_temp2),
+		.SUM(new_freq_6)
+	);
+
+	assign nodes[10] = {8'b0000_1111,1'b0,8'b0001_0011,charsOut_5[0]};
+	assign nodes[11] = {8'b0000_1111,1'b1,8'b0001_0100,charsOut_5[1]};
+	assign nodes[12] = {8'b0000_0000,1'b1,8'b1111_1111,7'b111_1111};//ROOT: id:FF parent:00
+
 endmodule

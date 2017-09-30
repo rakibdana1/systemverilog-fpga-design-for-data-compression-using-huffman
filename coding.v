@@ -10,73 +10,54 @@ module coding(CLK,nRST,DATA_OUT);
 	input nRST;
 	output [3:0] DATA_OUT;
 	
-	wire [27:0] character;
-	wire [15:0] frequent;
-	wire [31:0] frequent_after;
-
-	wire [12:0] info_node_1;//17
-	wire [12:0] info_node_2;
-	wire [12:0] info_node_3;
-	wire [12:0] info_node_4;
-	wire [12:0] info_node_5;
-	wire [12:0] info_node_6;
-	wire [12:0] info_node_7;
-	wire [7:0] node_new1;
-	wire [7:0] node_new2;
-	wire [7:0] node_new3;
-	wire [15:0] CODE_TABLE;
+	wire [90:0] string;//reg??
+	wire [6:0] freq[0:6];
+	wire [6:0] chars[0:6];
+	wire [6:0] sorted[0:6];
+	wire [6:0] charsOut[0:6];
+	wire [23:0] nodes[0:12];
+	wire [3:0] code[0:6]; //max code length <= total characters(7)
+	wire [3:0] codeLen[0:6];
 	
-	assign character=28'b1011_1010_1100_1101_1101_1011_1101;//Input: bacddbd --> a(1),b(2),c(1),d(3)
-	//Corresponding Huffman tree is
-	////////////root(7)/////////////
-	//////d(3)*************4/////////
-	////////////////b(2)*******2//////
-	////////////////////a(1)*******c(1)
+	//Input: hip hop happy
+	assign string=91'b110_1000_110_1001_111_0000_010_0000_110_1000_110_1111_111_0000_010_0000_110_1000_110_0001_111_0000_111_0000_111_1001;
 	
-//	generate for(i=0;i<7;i=i+1) begin :count
-	count_frequent count(
-		.CLK(CLK),
-		.nRST(nRST),
-		.CHARACTER_IN(character[27:0]),
-		.FREQUENT_OUT(frequent[15:0])
+	count_characters count (
+		.CLK(CLK), 
+		.nRST(nRST), 
+		.stringIn(string), 
+		.freq(freq),
+		.characters(chars)
 	);
-//	endgenerate
 
-	sort_frequent sort(// frequency sort, do not set the enable signal to coordinate count_frequent and sort_frequent
-		.CLK(CLK),
-		.nRST(nRST),
-		.FREQUENT_IN(frequent[15:0]),
-		.FREQUENT_OUT(frequent_after[31:0])
+	sort_frequencies sort (
+		.CLK(CLK), 
+		.nRST(nRST), 
+		.freq(freq), 
+		.charsIn(chars),
+		.sorted(sorted),
+		.charsOut(charsOut)
 	);
-	generate_tree tree(
-		.CLK(CLK),
-		.nRST(nRST),
-		.weight_Gather(frequent_after),
-		.info_node_1(info_node_1[12:0]),
-		.info_node_2(info_node_2[12:0]),
-		.info_node_3(info_node_3[12:0]),
-		.info_node_4(info_node_4[12:0]),
-		.info_node_5(info_node_5[12:0]),
-		.info_node_6(info_node_6[12:0]),
-		.info_node_7(info_node_7[12:0])
+
+	build_tree tree (
+		.CLK(CLK), 
+		.nRST(nRST), 
+		.freq(freq),
+		.chars(chars), 
+		.nodes(nodes)
 	);
-	generate_code code(
-		.CLK(CLK),
-		.nRST(nRST),
-		.info_node_1(info_node_1[12:0]),
-		.info_node_2(info_node_2[12:0]),
-		.info_node_3(info_node_3[12:0]),
-		.info_node_4(info_node_4[12:0]),
-		.info_node_5(info_node_5[12:0]),
-		.info_node_6(info_node_6[12:0]),
-		.info_node_7(info_node_7[12:0]),
-		.CODE_TABLE(CODE_TABLE[15:0])
-	);
-	light_led light(
-		.CLK(CLK),
-		.nRST(nRST),
-		.CODE_TABLE(CODE_TABLE[15:0]),
-		.LED_DATA(DATA_OUT[3:0])
+
+	integer nodeCount=13;//Total nodes in huffman tree
+	integer charCount=7;//Total unique characters
+	generate_code uut (
+		.CLK(CLK), 
+		.nRST(nRST), 
+		.nodes(nodes), 
+		.nodeCount(nodeCount), 
+		.characters(chars), 
+		.charCount(charCount), 
+		.code(code), 
+		.codeLen(codeLen)
 	);
 
 endmodule

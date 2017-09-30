@@ -12,8 +12,6 @@ module generate_code_test;
 	// Inputs
 	reg CLK;
 	reg nRST;
-	integer nodeCount=7;//Total nodes in huffman tree
-	integer charCount=4;//Total unique characters
 	reg [6:0] characters[0:3];
 	reg [23:0] nodes[0:6]; // total characters
 
@@ -23,14 +21,11 @@ module generate_code_test;
 	wire [3:0] codeLen[0:3];
 
 	// Instantiate the Unit Under Test (UUT)
-	//module generate_code(CLK,nRST,nodes,nodeCount,characters,charCount,code,codeLen);
 	generate_code uut (
 		.CLK(CLK), 
 		.nRST(nRST), 
 		.nodes(nodes), 
-		.nodeCount(nodeCount), 
 		.characters(characters), 
-		.charCount(charCount), 
 		.code(code), 
 		.codeLen(codeLen)
 	);
@@ -39,8 +34,6 @@ module generate_code_test;
 		// Initialize Inputs
 		CLK = 0;
 		nRST = 0;
-		nodeCount= 7;
-		charCount= 4;
 		characters[0]= 7'b110_0001;
 		characters[1]= 7'b110_0010;
 		characters[2]= 7'b110_0011;

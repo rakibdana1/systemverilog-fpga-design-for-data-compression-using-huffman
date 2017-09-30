@@ -2,37 +2,61 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 // Sort the symbol frequency array
-// FREQUENT_IN: 16 bit frequency array of 4 symbols. Each frequency stored in subsequent 4 bits.
+// freq: 7 bit frequency array of 7 characters.
 //
 // Mohammad Rakib
 // M. Engg. ICT, IICT
 //////////////////////////////////////////////////////////////////////////////////
 
-module sort_frequent(CLK,nRST,FREQUENT_IN,FREQUENT_OUT);
-	input CLK;
-	input nRST;
-	input [15:0] FREQUENT_IN;
-	output [31:0] FREQUENT_OUT;
-	 
-	//[7:0] means we're using the little-endian convention - start with 0 at the rightmost bit to begin the vector, then move to the left.
-	wire [7:0] freq_A;
-	wire [7:0] freq_B;
-	wire [7:0] freq_C;
-	wire [7:0] freq_D;
-	
-	assign freq_A[7:0] = {FREQUENT_IN[3:0],4'b1010};
-	assign freq_B[7:0] = {FREQUENT_IN[7:4],4'b1011};
-	assign freq_C[7:0] = {FREQUENT_IN[11:8],4'b1100};
-	assign freq_D[7:0] = {FREQUENT_IN[15:12],4'b1101};
-	
-	bubble_sort sort(
-		.CLK(CLK),
-		.nRST(nRST),
-		.freq_A(freq_A),
-		.freq_B(freq_B),
-		.freq_C(freq_C),
-		.freq_D(freq_D),
-		.SORT_RESULT(FREQUENT_OUT[31:0])
-	);
-	
+module sort_frequencies(CLK,nRST,freq,charsIn, sorted, charsOut);
+	input	CLK;
+	input	nRST;
+	input[6:0] freq[0:6];
+	input[6:0] charsIn[0:6];
+	output[6:0] sorted[0:6];
+	output[6:0] charsOut[0:6];
+
+	integer i, j;
+	reg [6:0] array[1:7];
+	reg [6:0] arrayChar[1:7];
+	reg[6:0] sorted[0:6];
+	reg[6:0] charsOut[0:6];
+	reg [6:0] temp;
+	reg [6:0] tempChar;
+
+always @(posedge CLK or negedge nRST) begin
+	if(!nRST) begin
+		for(i=1;i<8;i=i+1) begin
+			array[i] <= 7'b000_0000;
+			arrayChar[i] <= 7'b000_0000;
+			sorted[i-1] <= 7'b000_0000;
+			charsOut[i-1] <= 7'b000_0000;
+		end
+		temp <= 7'b000_0000;
+		tempChar <= 7'b000_0000;
+	end
+	else begin
+		for (i = 1; i < 8; i=i+1) begin
+			array[i] <= freq[i-1];// get the frequencies
+			arrayChar[i] <= charsIn[i-1];// get the chars
+		end
+  		for (i = 7; i > 0; i = i - 1) begin
+  			for (j = 1 ; j < i; j = j + 1) begin
+				if (array[j] < array[j + 1]) begin
+					temp = array[j];
+					array[j] = array[j + 1];
+					array[j + 1] = temp;
+				// Sort associate char
+					tempChar = arrayChar[j];
+					arrayChar[j] = arrayChar[j + 1];
+					arrayChar[j + 1] = tempChar;
+				end 
+			end
+		end 
+		for (i = 0; i < 7; i=i+1) begin
+			sorted[i] <= array[7-i][6:0];
+			charsOut[i] <= arrayChar[7-i];
+		end
+	end
+end
 endmodule

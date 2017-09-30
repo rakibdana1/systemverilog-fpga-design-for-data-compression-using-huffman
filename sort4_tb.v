@@ -13,16 +13,20 @@ module sort4_tb;
 	reg CLK;
 	reg nRST;
 	reg [6:0] freq[0:3];
+	reg [6:0] charsIn[0:3];
 
 	// Outputs
 	wire [6:0] sorted[0:3];
+	wire [6:0] charsOut[0:3];
 
 	// Instantiate the Unit Under Test (UUT)
 	sort4 uut (
 		.CLK(CLK), 
 		.nRST(nRST), 
 		.freq(freq), 
-		.sorted(sorted)
+		.charsIn(charsIn),
+		.sorted(sorted),
+		.charsOut(charsOut)
 	);
 
 	initial begin
@@ -30,9 +34,15 @@ module sort4_tb;
 		CLK = 0;
 		nRST = 0;
 		freq[0] = 8'd1;
-		freq[1] = 8'd3;
-		freq[2] = 8'd4;
-		freq[3] = 8'd2;
+		freq[1] = 8'd2;
+		freq[2] = 8'd3;
+		freq[3] = 8'd1;
+
+		charsIn[0] = 8'd1;
+		charsIn[1] = 8'd2;
+		charsIn[2] = 8'd3;
+		charsIn[3] = 8'd1;
+
 
 		// Wait 10 ns for global reset to finish
 		#10;
@@ -43,4 +53,3 @@ module sort4_tb;
 		#DELAY CLK = ~CLK; 
       
 endmodule
-

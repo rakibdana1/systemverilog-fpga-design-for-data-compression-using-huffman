@@ -7,43 +7,46 @@
 // M. Engg. ICT, IICT
 ////////////////////////////////////////////////////////////////////////////////
 
-module generate_tree_test;
+module build_tree_test;
 
 	// Inputs
 	reg CLK;
 	reg nRST;
-	reg [31:0] weight_Gather;
+	reg [6:0] freq[0:6];
+	reg [6:0] chars[0:6];
 
 	// Outputs
-	wire [12:0] info_node_1;
-	wire [12:0] info_node_2;
-	wire [12:0] info_node_3;
-	wire [12:0] info_node_4;
-	wire [12:0] info_node_5;
-	wire [12:0] info_node_6;
-	wire [12:0] info_node_7;
+	wire [23:0] nodes[0:12];
 
 	// Instantiate the Unit Under Test (UUT)
-	generate_tree uut (
+	build_tree uut (
 		.CLK(CLK), 
 		.nRST(nRST), 
-		.weight_Gather(weight_Gather), 
-		.info_node_1(info_node_1), 
-		.info_node_2(info_node_2), 
-		.info_node_3(info_node_3), 
-		.info_node_4(info_node_4), 
-		.info_node_5(info_node_5), 
-		.info_node_6(info_node_6), 
-		.info_node_7(info_node_7)
+		.freq(freq),
+		.chars(chars), 
+		.nodes(nodes)
 	);
 
 	initial begin
 		// Initialize Inputs
 		CLK = 0;
 		nRST = 0;
-		weight_Gather = 32'b0011_1101_0010_1011_0001_1100_0001_1010;
+		freq[0] = 7'd4;
+		freq[1] = 7'd3;
+		freq[2] = 7'd2;
+		freq[3] = 7'd1;
+		freq[4] = 7'd1;
+		freq[5] = 7'd1;
+		freq[6] = 7'd1;
+		chars[0] = 7'b111_0000;
+		chars[1] = 7'b110_1000;
+		chars[2] = 7'b010_0000;
+		chars[3] = 7'b110_0001;
+		chars[4] = 7'b110_1001;
+		chars[5] = 7'b110_1111;
+		chars[6] = 7'b111_1001;
 
-		#100;
+		#10;
 		nRST = 1;
 		// Add stimulus here
 

@@ -16,13 +16,15 @@ module count_characters_test;
 
 	// Outputs
 	wire [6:0] FREQUENT_OUT[0:6];
+	wire [6:0] CHARS[0:6];
 
 	// Instantiate the Unit Under Test (UUT)
 	count_characters uut (
 		.CLK(CLK), 
 		.nRST(nRST), 
 		.stringIn(CHARACTER_IN), 
-		.freq(FREQUENT_OUT)
+		.freq(FREQUENT_OUT),
+		.characters(CHARS)
 	);
 
 	initial begin

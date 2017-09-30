@@ -19,22 +19,22 @@
 
 ********************************************************************/
 
-module generate_code(CLK,nRST,nodes,nodeCount,characters,charCount,code,codeLen);
+module generate_code(CLK,nRST,nodes,characters,code,codeLen);
 	input CLK;
 	input nRST;
-	input integer nodeCount;//Total nodes in huffman tree
-	input integer charCount;//Total unique characters
-	input [6:0] characters[0:3];
-	input [23:0] nodes[0:6]; // total characters
+	input [6:0] characters[0:6];
+	input [23:0] nodes[0:12]; // total characters
 
-	output [3:0] code[0:3]; //[2:0] max code length <= total characters
-	output [3:0] codeLen[0:3];
-	reg [3:0] code[0:3]; //[charCount:0] max code length <= total characters
-	reg [3:0] codeLen[0:3];
+	output [3:0] code[0:6]; //[2:0] max code length <= total characters
+	output [3:0] codeLen[0:6];
+	reg [3:0] code[0:6]; //[charCount:0] max code length <= total characters
+	reg [3:0] codeLen[0:6];
 	
 	reg[3:0] tc;//temprary code reg. Holds a single bit in each byte
 	integer len=0;//code length
 	reg [23:0] tNode;
+	integer nodeCount= 13;//Total nodes in huffman tree
+	integer charCount= 7;//Total unique characters
 
 	function void FindRoot;
 		reg [23:0] aNode;//local

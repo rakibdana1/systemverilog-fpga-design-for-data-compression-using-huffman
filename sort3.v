@@ -1,73 +1,62 @@
 `timescale 1ns / 1ps
 
 //////////////////////////////////////////////////////////////////////////////////
-// Sort 3 input numbers using Bubble Sort and return result in SORT_RESULT
-// node1 [7:0]: Bit 4~7: frequency, Bit 0~3: 1010 
-// node2 [7:0]: Bit 4~7: frequency, Bit 0~3: 1011 
-// node3 [7:0]: Bit 4~7: frequency, Bit 0~3: 1100 
-
+// Sort the symbol frequency array
+// freq: 7 bit frequency array of 3 characters.
+//
 // Mohammad Rakib
 // M. Engg. ICT, IICT
 //////////////////////////////////////////////////////////////////////////////////
 
-module sort3(CLK,nRST,node1,node2,node3,new1,new2,new3);
+module sort3(CLK, nRST, freq, charsIn, sorted, charsOut);
 	input	CLK;
 	input	nRST;
-	input [7:0] node1;
-	input [7:0] node2;
-	input [7:0] node3;
-	output [7:0] new1;
-	output [7:0] new2;
-	output [7:0] new3;
-	
-	reg [7:0] new1;
-	reg [7:0] new2;
-	reg [7:0] new3;
-	
-	reg [7:0] temp;
-	
-	wire [7:0] temp1;
-	wire [7:0] temp2;
-	
-	sort2 s2_1(
-		.CLK(CLK),
-		.nRST(nRST),
-		.node1(node1),
-		.node2(node2),
-		.new1(temp1),
-		.new2(temp2)
-	);
-	
-	always @(posedge CLK or negedge nRST)
-	begin
-		if(!nRST)
-			begin
-			new1 <= 8'b0;
-			new2 <= 8'b0;
-			new3 <= 8'b0;
-			end
-		else
-			begin
-			temp <= node3;
-			if(temp[7:4] <= temp1[7:4])
-				begin
-				new1 <= temp;
-				new2 <= temp1;
-				new3 <= temp2;
-				end
-			else if(temp[7:4] > temp1[7:4] && temp[7:4] <= temp2[7:4])
-				begin
-				new1 <= temp1;
-				new2 <= temp;
-				new3 <= temp2;
-				end
-			else
-				begin
-				new1 <= temp1;
-				new2 <= temp2;
-				new3 <= temp;
-				end
-			end
+	input[6:0] freq[0:2];
+	input[6:0] charsIn[0:2];
+	output[6:0] sorted[0:2];
+	output[6:0] charsOut[0:2];
+
+	integer i, j;
+	reg [6:0] array[1:3];
+	reg [6:0] arrayChar[1:3];
+	reg[6:0] sorted[0:2];
+	reg[6:0] charsOut[0:2];
+	reg [6:0] temp;
+	reg [6:0] tempChar;
+
+always @(posedge CLK or negedge nRST) begin
+	if(!nRST) begin
+		for(i=1;i<4;i=i+1) begin
+			array[i] <= 7'b000_0000;
+			arrayChar[i] <= 7'b000_0000;
+			sorted[i-1] <= 7'b000_0000;
+			charsOut[i-1] <= 7'b000_0000;
+		end
+		temp <= 7'b000_0000;
+		tempChar <= 7'b000_0000;
 	end
-	
+	else begin
+		for (i = 1; i < 4; i=i+1) begin
+			array[i] <= freq[i-1];//get the frequencies
+			arrayChar[i] <= charsIn[i-1];//get the chars
+		end
+  		for (i = 3; i > 0; i = i - 1) begin
+  			for (j = 1 ; j < i; j = j + 1) begin
+				if (array[j] < array[j + 1]) begin
+					temp = array[j];
+					array[j] = array[j + 1];
+					array[j + 1] = temp;
+				// Sort associate characters
+					tempChar = arrayChar[j];
+					arrayChar[j] = arrayChar[j + 1];
+					arrayChar[j + 1] = tempChar;
+				end 
+			end
+		end 
+		for (i = 0; i < 3; i=i+1) begin
+			sorted[i] <= array[3-i][6:0];
+			charsOut[i] <= arrayChar[3-i];
+		end
+	end
+end
 endmodule

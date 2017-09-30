@@ -22,5 +22,5 @@ module add_num(CLK,nRST,NUM_1,NUM_2,SUM);
 		else
 			sum_r <= NUM_1 + NUM_2; 
 	end
-	assign  SUM = sum_r[7:0];
+	assign  SUM = sum_r[6:0];
 endmodule

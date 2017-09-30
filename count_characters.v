@@ -8,13 +8,15 @@
 // M. Engg. ICT, IICT
 //////////////////////////////////////////////////////////////////////////////////
 
-module count_characters(CLK,nRST,stringIn,freq);
+module count_characters(CLK,nRST,stringIn,freq,characters);
 	input CLK;
 	input nRST;
 	input [90:0] stringIn;
+	output [6:0] characters[0:6];// 7 types of characters
 	output [6:0] freq[0:6];// Frequencies for 7 types of characters
 	
 	reg [6:0] freq[0:6];
+	reg [6:0] characters[0:6];
 	reg [6:0] temp_character;
 	integer i;
 	 
@@ -29,6 +31,14 @@ module count_characters(CLK,nRST,stringIn,freq);
 			for(i=0;i<7;i=i+1) begin
 					freq[i]= 7'd0;
 			end
+			characters[0] = 7'b111_0000;
+			characters[1] = 7'b110_1000;
+			characters[2] = 7'b010_0000;
+			characters[3] = 7'b110_0001;
+			characters[4] = 7'b110_1001;
+			characters[5] = 7'b110_1111;
+			characters[6] = 7'b111_1001;
+
 			for(i=0;i<13;i=i+1) begin
 				temp_character= 7'd0;
 				case(i)
