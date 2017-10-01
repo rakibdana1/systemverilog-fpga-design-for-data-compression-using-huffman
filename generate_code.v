@@ -22,17 +22,18 @@
 module generate_code(CLK,nRST,nodes,characters,code,codeLen);
 	input CLK;
 	input nRST;
-	input [6:0] characters[0:6];
+	input [6:0] characters[0:6];//input is 7 unique chars
 	input [23:0] nodes[0:12]; // total characters
 
-	output [3:0] code[0:6]; //[2:0] max code length <= total characters
-	output [3:0] codeLen[0:6];
-	reg [3:0] code[0:6]; //[charCount:0] max code length <= total characters
-	reg [3:0] codeLen[0:6];
+	output [6:0] code[0:6]; //max code length <= unique characters
+	output [6:0] codeLen[0:6];
+	reg [6:0] code[0:6]; //[charCount:0] max code length <= unique characters
+	reg [6:0] codeLen[0:6];
 	
-	reg[3:0] tc;//temprary code reg. Holds a single bit in each byte
+	reg[6:0] tc;//temprary code reg. Holds a single bit in each byte
 	integer len=0;//code length
 	reg [23:0] tNode;
+
 	integer nodeCount= 13;//Total nodes in huffman tree
 	integer charCount= 7;//Total unique characters
 
@@ -88,7 +89,6 @@ module generate_code(CLK,nRST,nodes,characters,code,codeLen);
 						code[i][k]= 1'b1;
 					end
 				end
-				//code[i]=2;
 				codeLen[i]= len;
 			end
 		end

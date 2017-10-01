@@ -28,8 +28,9 @@ module build_tree(CLK,nRST,freq,chars,nodes);
 	reg[6:0] freq_temp1, freq_temp2;
 	integer i,j;
 
+
 	// Add two least frequncy and get it on wire new_freq_1
-	always @ (posedge CLK or negedge nRST) begin 
+	always @ (posedge CLK  or negedge nRST) begin 
 		if(!nRST) begin
 			// init
 		end 

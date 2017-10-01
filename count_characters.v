@@ -14,7 +14,7 @@ module count_characters(CLK,nRST,stringIn,freq,characters);
 	input [90:0] stringIn;
 	output [6:0] characters[0:6];// 7 types of characters
 	output [6:0] freq[0:6];// Frequencies for 7 types of characters
-	
+
 	reg [6:0] freq[0:6];
 	reg [6:0] characters[0:6];
 	reg [6:0] temp_character;

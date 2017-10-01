@@ -17,10 +17,11 @@ module add_num(CLK,nRST,NUM_1,NUM_2,SUM);
 
 	always@(posedge CLK or negedge nRST)
 	begin
-		if(!nRST)
+		if(!nRST) begin
 			sum_r <= 7'b000_0000;
-		else
+		end else begin
 			sum_r <= NUM_1 + NUM_2; 
+		end
 	end
 	assign  SUM = sum_r[6:0];
 endmodule
