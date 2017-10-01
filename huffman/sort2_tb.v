@@ -14,12 +14,12 @@ module sort2_tb;
 	reg nRST;
 	reg [6:0] freq[0:1];
 	reg [6:0] charsIn[0:1];
-	reg [6:0] idIn[0:1];
+	reg [7:0] idIn[0:1];
 
 	// Outputs
 	wire [6:0] sorted[0:1];
 	wire [6:0] charsOut[0:1];
-	wire [6:0] idOut[0:1];
+	wire [7:0] idOut[0:1];
 
 	// Instantiate the Unit Under Test (UUT)
 	sort2 uut (
@@ -37,11 +37,11 @@ module sort2_tb;
 		// Initialize Inputs
 		CLK = 0;
 		nRST = 0;
-		freq[0] = 8'd3;
-		freq[1] = 8'd1;
+		freq[0] = 7'd3;
+		freq[1] = 7'd1;
 	
-		charsIn[0] = 8'd3;
-		charsIn[1] = 8'd1;
+		charsIn[0] = 7'd3;
+		charsIn[1] = 7'd1;
 
 		idIn[0] = 8'd3;
 		idIn[1] = 8'd1;

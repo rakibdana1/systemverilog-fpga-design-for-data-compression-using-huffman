@@ -14,14 +14,14 @@ module sort2(CLK,nRST,freq,charsIn,idIn,sorted, charsOut,idOut);
 	input	nRST;
 	input[6:0] freq[0:1];
 	input[6:0] charsIn[0:1];
-	input[6:0] idIn[0:1];
+	input[7:0] idIn[0:1];
 	output[6:0] sorted[0:1];
 	output[6:0] charsOut[0:1];
-	output[6:0] idOut[0:1];
+	output[7:0] idOut[0:1];
 	
 	reg [6:0] sorted[0:1];
 	reg [6:0] charsOut[0:1];
-	reg [6:0] idOut[0:1];
+	reg [7:0] idOut[0:1];
 	
 	always @ (posedge CLK or negedge nRST)
 	begin 

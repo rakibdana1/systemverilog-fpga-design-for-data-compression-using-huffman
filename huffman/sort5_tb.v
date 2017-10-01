@@ -14,12 +14,12 @@ module sort5_tb;
 	reg nRST;
 	reg [6:0] freq[0:4];
 	reg [6:0] charsIn[0:4];
-	reg [6:0] idIn[0:4];
+	reg [7:0] idIn[0:4];
 
 	// Outputs
 	wire [6:0] sorted[0:4];
 	wire [6:0] charsOut[0:4];
-	wire [6:0] idOut[0:4];
+	wire [7:0] idOut[0:4];
 
 	// Instantiate the Unit Under Test (UUT)
 	sort5 uut (

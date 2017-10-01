@@ -13,21 +13,21 @@ module sort5(CLK,nRST,freq,charsIn,idIn, sorted, charsOut,idOut);
 	input	nRST;
 	input[6:0] freq[0:4];
 	input[6:0] charsIn[0:4];
-	input[6:0] idIn[0:4];
+	input[7:0] idIn[0:4];
 	output[6:0] sorted[0:4];
 	output[6:0] charsOut[0:4];
-	output[6:0] idOut[0:4];
+	output[7:0] idOut[0:4];
 
 	integer i, j;
 	reg [6:0] array[1:5];
 	reg [6:0] arrayChar[1:5];
-	reg [6:0] arrayid[1:5];
+	reg [7:0] arrayid[1:5];
 	reg[6:0] sorted[0:4];
 	reg[6:0] charsOut[0:4];
-	reg[6:0] idOut[0:4];
+	reg[7:0] idOut[0:4];
 	reg [6:0] temp;
 	reg [6:0] tempChar;
-	reg [6:0] tempid;
+	reg [7:0] tempid;
 
 always @(posedge CLK or negedge nRST) begin
 	if(!nRST) begin

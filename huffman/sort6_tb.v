@@ -14,12 +14,12 @@ module sort6_tb;
 	reg nRST;
 	reg [6:0] freq[0:5];
 	reg [6:0] charsIn[0:5];
-	reg [6:0] idIn[0:5];
+	reg [7:0] idIn[0:5];
 
 	// Outputs
 	wire [6:0] sorted[0:5];
 	wire [6:0] charsOut[0:5];
-	wire [6:0] idOut[0:5];
+	wire [7:0] idOut[0:5];
 
 	// Instantiate the Unit Under Test (UUT)
 	sort6 uut (
@@ -37,19 +37,19 @@ module sort6_tb;
 		// Initialize Inputs
 		CLK = 0;
 		nRST = 0;
-		freq[0] = 8'd1;
-		freq[1] = 8'd7;
-		freq[2] = 8'd3;
-		freq[3] = 8'd1;
-		freq[4] = 8'd2;
-		freq[5] = 8'd9;
+		freq[0] = 7'd1;
+		freq[1] = 7'd7;
+		freq[2] = 7'd3;
+		freq[3] = 7'd1;
+		freq[4] = 7'd2;
+		freq[5] = 7'd9;
 
-		charsIn[0] = 8'd1;
-		charsIn[1] = 8'd7;
-		charsIn[2] = 8'd3;
-		charsIn[3] = 8'd1;
-		charsIn[4] = 8'd2;
-		charsIn[5] = 8'd9;
+		charsIn[0] = 7'd1;
+		charsIn[1] = 7'd7;
+		charsIn[2] = 7'd3;
+		charsIn[3] = 7'd1;
+		charsIn[4] = 7'd2;
+		charsIn[5] = 7'd9;
 
 		idIn[0] = 8'd1;
 		idIn[1] = 8'd7;

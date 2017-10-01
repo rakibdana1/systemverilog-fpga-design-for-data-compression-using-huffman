@@ -13,21 +13,21 @@ module sort3(CLK,nRST,freq,charsIn,idIn, sorted, charsOut,idOut);
 	input	nRST;
 	input[6:0] freq[0:2];
 	input[6:0] charsIn[0:2];
-	input[6:0] idIn[0:2];
+	input[7:0] idIn[0:2];
 	output[6:0] sorted[0:2];
 	output[6:0] charsOut[0:2];
-	output[6:0] idOut[0:2];
+	output[7:0] idOut[0:2];
 
 	integer i, j;
 	reg [6:0] array[1:3];
 	reg [6:0] arrayChar[1:3];
-	reg [6:0] arrayid[1:3];
+	reg [7:0] arrayid[1:3];
 	reg[6:0] sorted[0:2];
 	reg[6:0] charsOut[0:2];
-	reg[6:0] idOut[0:2];
+	reg[7:0] idOut[0:2];
 	reg [6:0] temp;
 	reg [6:0] tempChar;
-	reg [6:0] tempid;
+	reg [7:0] tempid;
 
 always @(posedge CLK or negedge nRST) begin
 	if(!nRST) begin
@@ -37,11 +37,11 @@ always @(posedge CLK or negedge nRST) begin
 			arrayid[i] <= 7'b000_0000;
 			sorted[i-1] <= 7'b000_0000;
 			charsOut[i-1] <= 7'b000_0000;
-			idOut[i-1] <= 7'b000_0000;
+			idOut[i-1] <= 8'b000_0000;
 		end
 		temp <= 7'b000_0000;
 		tempChar <= 7'b000_0000;
-		tempid <= 7'b000_0000;
+		tempid <= 8'b000_0000;
 	end
 	else begin
 		for (i = 1; i < 4; i=i+1) begin

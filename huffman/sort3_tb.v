@@ -14,12 +14,12 @@ module sort3_tb;
 	reg nRST;
 	reg [6:0] freq[0:2];
 	reg [6:0] charsIn[0:2];
-	reg [6:0] idIn[0:2];
+	reg [7:0] idIn[0:2];
 
 	// Outputs
 	wire [6:0] sorted[0:2];
 	wire [6:0] charsOut[0:2];
-	wire [6:0] idOut[0:2];
+	wire [7:0] idOut[0:2];
 
 	// Instantiate the Unit Under Test (UUT)
 	sort3 uut (

@@ -46,18 +46,18 @@ module generate_code_test;
 /*              | parent number | 0 or 1 | node_id    | character
 ******************************************************************/
 
-		nodes[0] = 24'h0300f0;
-		nodes[1] = 24'h038168;
-		nodes[2] = 24'h060279;
-		nodes[3] = 24'h0682ef;
-		nodes[4] = 24'h0903ff;
-		nodes[5] = 24'h098461;
-		nodes[6] = 24'h0f057f;
-		nodes[7] = 24'h060279;
-		nodes[8] = 24'h12087f;
-		nodes[9] = 24'h1288a0;
-		nodes[10] = 24'h0f09ff;
-		nodes[11] = 24'h0f8a7f;
+		nodes[0] = 24'h0800ef;
+		nodes[1] = 24'h088179;
+		nodes[2] = 24'h090261;
+		nodes[3] = 24'h0981e9;
+		nodes[4] = 24'h0a047f;
+		nodes[5] = 24'h0a82a0;
+		nodes[6] = 24'h0b04ff;
+		nodes[7] = 24'h0b8368;
+		nodes[8] = 24'h0c057f;
+		nodes[9] = 24'h0c83f0;
+		nodes[10] = 24'h0d067f;
+		nodes[11] = 24'h0d85ff;
 		nodes[12] = 24'h00ffff;
 
 		// Wait 10 ns for global reset to finish
