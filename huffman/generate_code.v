@@ -10,14 +10,6 @@
 /*              |    0-255      |   0-1  |   0-255    |  0-127
 /*              | parent number | 0 or 1 | node_id    | character
 ******************************************************************/
-/*
-
-  NOTICE:    1.make sure the number of signals is less than 255 !!
-             2. the coding result may be different from the software,
-             but they generate a same huffman tree,only the coding method
-             is different
-
-********************************************************************/
 
 module generate_code(CLK,nRST,nodes,characters,code,codeLen);
 	input CLK;
@@ -70,6 +62,7 @@ module generate_code(CLK,nRST,nodes,characters,code,codeLen);
 				for(j=0; j<charCount; j++) begin
 					code[i][j]= 1'b0;
 				end
+				codeLen[i]=1'b0;
 			end
 
 			for(i= 0;i < charCount;i++) begin // For all character we are going to find codeword

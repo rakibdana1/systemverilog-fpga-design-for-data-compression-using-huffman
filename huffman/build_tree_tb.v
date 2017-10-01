@@ -14,7 +14,7 @@ module build_tree_test;
 	reg nRST;
 	reg [6:0] freq[0:6];
 	reg [6:0] chars[0:6];
-
+	reg [6:0] id[0:6];
 	// Outputs
 	wire [23:0] nodes[0:12];
 
@@ -24,6 +24,7 @@ module build_tree_test;
 		.nRST(nRST), 
 		.freq(freq),
 		.chars(chars), 
+		.id(id),
 		.nodes(nodes)
 	);
 
@@ -45,11 +46,15 @@ module build_tree_test;
 		chars[4] = 7'b110_1001;
 		chars[5] = 7'b110_1111;
 		chars[6] = 7'b111_1001;
-
+		id[0] = 7'd1;
+		id[1] = 7'd2;
+		id[2] = 7'd3;
+		id[3] = 7'd4;
+		id[4] = 7'd5;
+		id[5] = 7'd6;
+		id[6] = 7'd7;
 		#10;
 		nRST = 1;
-		// Add stimulus here
-
 	end
 	parameter DELAY = 1;
 	always

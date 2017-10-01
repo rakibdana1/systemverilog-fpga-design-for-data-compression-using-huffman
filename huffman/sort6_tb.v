@@ -14,10 +14,12 @@ module sort6_tb;
 	reg nRST;
 	reg [6:0] freq[0:5];
 	reg [6:0] charsIn[0:5];
+	reg [6:0] idIn[0:5];
 
 	// Outputs
 	wire [6:0] sorted[0:5];
 	wire [6:0] charsOut[0:5];
+	wire [6:0] idOut[0:5];
 
 	// Instantiate the Unit Under Test (UUT)
 	sort6 uut (
@@ -25,8 +27,10 @@ module sort6_tb;
 		.nRST(nRST), 
 		.freq(freq), 
 		.charsIn(charsIn),
+		.idIn(idIn),
 		.sorted(sorted),
-		.charsOut(charsOut)
+		.charsOut(charsOut),
+		.idOut(idOut)
 	);
 
 	initial begin
@@ -46,6 +50,13 @@ module sort6_tb;
 		charsIn[3] = 8'd1;
 		charsIn[4] = 8'd2;
 		charsIn[5] = 8'd9;
+
+		idIn[0] = 8'd1;
+		idIn[1] = 8'd7;
+		idIn[2] = 8'd3;
+		idIn[3] = 8'd1;
+		idIn[4] = 8'd2;
+		idIn[5] = 8'd9;
 
 		// Wait 10 ns for global reset to finish
 		#10;

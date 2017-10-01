@@ -8,11 +8,12 @@
 // M. Engg. ICT, IICT
 //////////////////////////////////////////////////////////////////////////////////
 
-module build_tree(CLK,nRST,freq,chars,nodes);
+module build_tree(CLK,nRST,freq,chars,id,nodes);
 	input CLK;
 	input nRST;
 	input [6:0] freq[0:6];
 	input [6:0] chars[0:6];
+	input [6:0] id[0:6];
 
 	output [23:0] nodes[0:12];//Not considring register for this output.
 

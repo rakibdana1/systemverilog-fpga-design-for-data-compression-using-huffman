@@ -14,10 +14,12 @@ module sort2_tb;
 	reg nRST;
 	reg [6:0] freq[0:1];
 	reg [6:0] charsIn[0:1];
+	reg [6:0] idIn[0:1];
 
 	// Outputs
 	wire [6:0] sorted[0:1];
 	wire [6:0] charsOut[0:1];
+	wire [6:0] idOut[0:1];
 
 	// Instantiate the Unit Under Test (UUT)
 	sort2 uut (
@@ -25,8 +27,10 @@ module sort2_tb;
 		.nRST(nRST), 
 		.freq(freq), 
 		.charsIn(charsIn),
+		.idIn(idIn),
 		.sorted(sorted),
-		.charsOut(charsOut)
+		.charsOut(charsOut),
+		.idOut(idOut)
 	);
 
 	initial begin
@@ -38,6 +42,9 @@ module sort2_tb;
 	
 		charsIn[0] = 8'd3;
 		charsIn[1] = 8'd1;
+
+		idIn[0] = 8'd3;
+		idIn[1] = 8'd1;
 
 		// Wait 10 ns for global reset to finish
 		#10;
