@@ -1,7 +1,8 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Generate a new tree is to generate the optimal huffman tree
-// freq: Sorted frequency array chars: character array
+// Build huffman tree
+// freq: Sorted frequency array 
+// chars: character array, id: id of each symbol
 // nodes: Nodes array of generated Huffman tree as output
 //
 // Mohammad Rakib
@@ -50,8 +51,8 @@ module build_tree(CLK,nRST,freq,chars,id,nodes);
 		.SUM(new_freq_1)
 	);
 
-	assign nodes[0] = {id8,1'b0,id[0],chars[0]};
-	assign nodes[1] = {id8,1'b1,id[1],chars[1]};
+	assign nodes[0] = {id8,1'b1,id[0],chars[0]};
+	assign nodes[1] = {id8,1'b0,id[1],chars[1]};
 
 	// Sort new 6 frequencies.
 	reg[6:0] freq_1[0:5];
@@ -109,8 +110,8 @@ module build_tree(CLK,nRST,freq,chars,id,nodes);
 		.SUM(new_freq_2)
 	);
 
-	assign nodes[2] = {id9,1'b0,idOut_1[0],charsOut_1[0]};
-	assign nodes[3] = {id9,1'b1,idOut_1[1],charsOut_1[1]};
+	assign nodes[2] = {id9,1'b1,idOut_1[0],charsOut_1[0]};
+	assign nodes[3] = {id9,1'b0,idOut_1[1],charsOut_1[1]};
 
 	// Sort new 5 frequencies.
 	reg[6:0] freq_2[0:4];
@@ -168,8 +169,8 @@ module build_tree(CLK,nRST,freq,chars,id,nodes);
 		.SUM(new_freq_3)
 	);
 
-	assign nodes[4] = {id10,1'b0,idOut_2[0],charsOut_2[0]};
-	assign nodes[5] = {id10,1'b1,idOut_2[1],charsOut_2[1]};
+	assign nodes[4] = {id10,1'b1,idOut_2[0],charsOut_2[0]};
+	assign nodes[5] = {id10,1'b0,idOut_2[1],charsOut_2[1]};
 
 	// Sort new 4 frequencies.
 	reg[6:0] freq_3[0:3];
@@ -227,8 +228,8 @@ module build_tree(CLK,nRST,freq,chars,id,nodes);
 		.SUM(new_freq_4)
 	);
 
-	assign nodes[6] = {id11,1'b0,idOut_3[0],charsOut_3[0]};
-	assign nodes[7] = {id11,1'b1,idOut_3[1],charsOut_3[1]};
+	assign nodes[6] = {id11,1'b1,idOut_3[0],charsOut_3[0]};
+	assign nodes[7] = {id11,1'b0,idOut_3[1],charsOut_3[1]};
 
 	// Sort new 3 frequencies.
 	reg[6:0] freq_4[0:2];
@@ -286,8 +287,8 @@ module build_tree(CLK,nRST,freq,chars,id,nodes);
 		.SUM(new_freq_5)
 	);
 
-	assign nodes[8] = {id12,1'b0,idOut_4[0],charsOut_4[0]};
-	assign nodes[9] = {id12,1'b1,idOut_4[1],charsOut_4[1]};
+	assign nodes[8] = {id12,1'b1,idOut_4[0],charsOut_4[0]};
+	assign nodes[9] = {id12,1'b0,idOut_4[1],charsOut_4[1]};
 
 	// Sort new 2 frequencies.
 	reg[6:0] freq_5[0:1];
@@ -330,7 +331,7 @@ module build_tree(CLK,nRST,freq,chars,id,nodes);
 			// init
 		end 
 		else begin 
-			id13=8'd13;
+			id13=8'hff;
 			freq_temp1= sorted_5[0];
 			freq_temp2= sorted_5[1];
 		end
@@ -354,8 +355,8 @@ module build_tree(CLK,nRST,freq,chars,id,nodes);
 	assign nodes[7] = {id_temp,1'b1,idOut_3[1],charsOut_3[1]};
 	assign nodes[8] = {id_temp,1'b0,idOut_4[0],charsOut_4[0]};
 	assign nodes[9] = {id_temp,1'b1,idOut_4[1],charsOut_4[1]}; */
-	assign nodes[10] = {id13,1'b0,idOut_5[0],charsOut_5[0]};
-	assign nodes[11] = {id13,1'b1,idOut_5[1],charsOut_5[1]};
+	assign nodes[10] = {id13,1'b1,idOut_5[0],charsOut_5[0]};
+	assign nodes[11] = {id13,1'b0,idOut_5[1],charsOut_5[1]};
 	assign nodes[12] = {8'b0000_0000,1'b1,8'b1111_1111,7'b111_1111};//ROOT: id:FF parent:00
 
 endmodule

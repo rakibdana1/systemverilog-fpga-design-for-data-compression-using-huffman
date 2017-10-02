@@ -39,8 +39,8 @@ module build_tree_test;
 		freq[4] = 7'd2;
 		freq[5] = 7'd3;
 		freq[6] = 7'd4;
-		chars[0] = 7'b1101111;//o
-		chars[1] = 7'b1111001;//y
+		chars[0] = 7'b1111001;//y
+		chars[1] = 7'b1101111;//o
 		chars[2] = 7'b1101001;//i
 		chars[3] = 7'b1100001;//a
 		chars[4] = 7'b0100000;// 
@@ -53,10 +53,10 @@ module build_tree_test;
 		id[4] = 8'd5;
 		id[5] = 8'd6;
 		id[6] = 8'd7;
-		#100;
+		#10;
 		nRST = 1;
 	end
-	parameter DELAY = 2;
+	parameter DELAY = 1;
 	always
 		#DELAY CLK = ~CLK;
       

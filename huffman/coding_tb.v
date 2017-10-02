@@ -14,15 +14,15 @@ module coding_test;
 	reg nRST;
 
 	// Outputs
-	wire [6:0] code[0:6]; //max code length <= total characters(7)
-	wire [6:0] codeLen[0:6];
+	wire [0:33] compress;
+	wire integer length;
 
 	// Instantiate the Unit Under Test (UUT)
 	coding uut (
 		.CLK(CLK), 
 		.nRST(nRST), 
-		.code(code),
-		.codeLen(codeLen)
+		.compress(compress),
+		.length(length)
 	);
 
 	initial begin
@@ -30,11 +30,11 @@ module coding_test;
 		CLK = 0;
 		nRST = 0;
 
-		#100;
+		#10;
 		nRST = 1;
 
 	end
-	parameter DELAY = 10;
+	parameter DELAY = 1;
 	always 
 		#DELAY CLK = ~ CLK;
       
