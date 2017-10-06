@@ -33,16 +33,7 @@ module hamming_decoder_tb;
 		// Initialize Inputs
 		CLK = 0;
 		nRST = 0;
-
-		// Valid code for data 0000
-		//#0 in = 7'b000_0000;
-		// InValid code for data 0000
-		//#5 in = 7'b000_0001;
-		
-		// Valid code for data 1101
-		// in = 7'b110_0110;
-		// InValid code for data 1101
-	 	in = 58'h1e0000000000000;//h34a5e0599802ccf
+	 	in = 58'h34a5e0599802ccf;
 
 		// Wait 10 ns for global reset to finish
 		#10;

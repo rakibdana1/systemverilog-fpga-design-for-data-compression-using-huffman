@@ -29,7 +29,7 @@ module hamming_encoder_tb;
 		// Initialize Inputs
 		CLK = 0;
 		nRST = 0;
-		in= 34'h300000000;//h0563ac3af
+		in= 34'h0563ac3af;
 
 		// Wait 10 ns for global reset to finish
 		#10;
