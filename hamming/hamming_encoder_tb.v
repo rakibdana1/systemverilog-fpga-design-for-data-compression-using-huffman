@@ -14,27 +14,30 @@ module hamming_encoder_tb;
 	reg nRST;
 
 	// Outputs
-	wire [1:7] code;
+	reg [1:58] out; // 7*8+2=58
+	reg [0:33] in;
 
 	// Instantiate the Unit Under Test (UUT)
 	hamming_encoder uut (
 		.CLK(CLK), 
 		.nRST(nRST), 
-		.hammingCode(code)
+		.in(in),
+		.out(out)
 	);
 
 	initial begin
 		// Initialize Inputs
 		CLK = 0;
 		nRST = 0;
+		in= 34'h300000000;//h0563ac3af
 
 		// Wait 10 ns for global reset to finish
 		#10;
         nRST = 1;
 	end
-	parameter DALAY = 1;
+	parameter DELAY = 1;
 	always 
-		# DALAY CLK = ~CLK;
+		# DELAY CLK = ~CLK;
       
 endmodule
 

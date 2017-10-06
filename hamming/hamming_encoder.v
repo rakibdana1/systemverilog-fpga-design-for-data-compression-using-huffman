@@ -8,34 +8,44 @@
 // Mohammad Rakib
 // M. Engg. ICT, IICT
 //////////////////////////////////////////////////////////////////////////////////
-module hamming_encoder(CLK, nRST, hammingCode);
+module hamming_encoder(CLK, nRST, in, out);
 	input	CLK;
 	input	nRST;
-	output[1:7] hammingCode;
+	input [0:33] in;
+	output[1:58] out;
 	
-	reg [0:3] in;
-	assign in= 4'b1010; //Output should be: 1011 010
-	reg [1:7] out;
+	reg [0:33] in;
+	reg [1:58] out;
+	reg [1:58] outTemp;
 
 	always@(posedge CLK or negedge nRST)
 	begin
 		if(!nRST) begin
-			out <= 7'b000_0000;
+			outTemp= 58'd0;
 		end 
 		else begin
-			//P1 = D1 ^ D2 ^ D4
-			out[1]  = in[0] ^ in[1] ^ in[3];
-			//P2 = D1 ^ D3 ^ D4 
-			out[2]  = in[0] ^ in[2] ^ in[3];
-			out[3]  = in[0];//D1
-			//P4 = D2 ^ D3 ^ D4 ^ D8 ^ D9 ^ D10 ^ D11
-			out[4]  = in[1] ^ in[2] ^ in[3];
-			out[5]  = in[1];//D2
-			out[6]  = in[2];//D3
-			out[7]  = in[3];//D4
+			integer i,j,k;
+			j=0;
+			k=0;
+			outTemp= 58'd0;
+			for(i=1;i<9;i++) begin
+				outTemp[j+1]  = in[k] ^ in[k+1] ^ in[k+3];//P1 = D1 ^ D2 ^ D4
+				outTemp[j+2]  = in[k] ^ in[k+2] ^ in[k+3];//P2 = D1 ^ D3 ^ D4 
+				outTemp[j+3]  = in[k];//D1
+				outTemp[j+4]  = in[k+1] ^ in[k+2] ^ in[k+3];//P4 = D2 ^ D3 ^ D4
+				outTemp[j+5]  = in[k+1];//D2
+				outTemp[j+6]  = in[k+2];//D3
+				outTemp[j+7]  = in[k+3];//D4
+				j= j+7;
+				k= k+4;
+			end
+			outTemp[j+1]=in[k];
+			outTemp[j+2]=in[k+1];//remaining bits
+			out = outTemp[1:58];
 		end
+	
 	end
-	assign  hammingCode = out;
+	
 endmodule
 
 
