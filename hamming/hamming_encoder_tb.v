@@ -12,10 +12,10 @@ module hamming_encoder_tb;
 	// Inputs
 	reg CLK;
 	reg nRST;
+	reg [0:33] in;
 
 	// Outputs
 	reg [1:58] out; // 7*8+2=58
-	reg [0:33] in;
 
 	// Instantiate the Unit Under Test (UUT)
 	hamming_encoder uut (

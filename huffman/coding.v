@@ -5,11 +5,16 @@
 // Mohammad Rakib
 // M. Engg. ICT, IICT
 //////////////////////////////////////////////////////////////////////////////////
-module coding(CLK,nRST,compress,length);
+module coding(CLK,nRST,code,codeLen,compress,length);
 	input CLK;
 	input nRST;
+	input [6:0] code[0:6];
+	input [6:0] codeLen[0:6];
 	output [0:33] compress;
 	output length;
+
+	reg [6:0] code[0:6]; //[6:0] max code length <= unique characters
+	reg [6:0] codeLen[0:6];
 	
 	wire [90:0] stringIn;//reg??
 	//Input: "hip hop happy"
