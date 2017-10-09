@@ -17,6 +17,7 @@ module build_tree_test;
 	reg [7:0] id[0:6];
 	// Outputs
 	wire [23:0] nodes[0:12];
+	reg done;
 
 	// Instantiate the Unit Under Test (UUT)
 	build_tree uut (
@@ -25,7 +26,8 @@ module build_tree_test;
 		.freq(freq),
 		.chars(chars), 
 		.id(id),
-		.nodes(nodes)
+		.nodes(nodes),
+		.done(done)
 	);
 
 	initial begin

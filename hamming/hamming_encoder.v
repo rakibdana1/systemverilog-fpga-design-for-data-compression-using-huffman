@@ -8,23 +8,26 @@
 // Mohammad Rakib
 // M. Engg. ICT, IICT
 //////////////////////////////////////////////////////////////////////////////////
-module hamming_encoder(CLK, nRST, in, out);
+module hamming_encoder(CLK,nRST,en,in,out);
 	input	CLK;
 	input	nRST;
 	input [0:33] in;
+	input en;
 	output[1:58] out;
 	
 	reg [0:33] in;
 	reg [1:58] out;
 	reg [1:58] outTemp;
-
+	reg en;
+	integer i,j,k;
 	always@(posedge CLK or negedge nRST)
 	begin
 		if(!nRST) begin
 			outTemp= 58'd0;
-		end 
+		end else if(en==0) begin
+		end
 		else begin
-			integer i,j,k;
+			//@(en == 0);  // Wait till en goes high
 			j=0;
 			k=0;
 			outTemp= 58'd0;

@@ -9,7 +9,7 @@
 // M. Engg. ICT, IICT
 //////////////////////////////////////////////////////////////////////////////////
 
-module build_tree(CLK,nRST,freq,chars,id,nodes);
+module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 	input CLK;
 	input nRST;
 	input [6:0] freq[0:6];
@@ -17,6 +17,7 @@ module build_tree(CLK,nRST,freq,chars,id,nodes);
 	input [7:0] id[0:6];
 
 	output [23:0] nodes[0:12];//Not considring register for this output.
+	output done;
 
 	//to calculate temp frequencies in huffman tree
 	wire [6:0] new_freq_1; 
@@ -30,6 +31,7 @@ module build_tree(CLK,nRST,freq,chars,id,nodes);
 	reg[6:0] freq_temp1, freq_temp2;
 	reg[7:0] id8,id9,id10,id11,id12,id13;
 	integer i,j;
+	reg done;
 
 	// Add two least frequncy and get it on wire new_freq_1
 	always @ (posedge CLK  or negedge nRST) begin 
@@ -37,6 +39,7 @@ module build_tree(CLK,nRST,freq,chars,id,nodes);
 			// init
 		end 
 		else begin 
+			done=0;
 			id8=8'd8;
 			freq_temp1= freq[0];
 			freq_temp2= freq[1];
@@ -334,6 +337,7 @@ module build_tree(CLK,nRST,freq,chars,id,nodes);
 			id13=8'hff;
 			freq_temp1= sorted_5[0];
 			freq_temp2= sorted_5[1];
+			done=1;
 		end
 	end		
 	// Add two least frequncy and get it on wire new_freq_6

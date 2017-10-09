@@ -13,6 +13,7 @@ module hamming_encoder_tb;
 	reg CLK;
 	reg nRST;
 	reg [0:33] in;
+	reg en;
 
 	// Outputs
 	reg [1:58] out; // 7*8+2=58
@@ -21,6 +22,7 @@ module hamming_encoder_tb;
 	hamming_encoder uut (
 		.CLK(CLK), 
 		.nRST(nRST), 
+		.en(en),
 		.in(in),
 		.out(out)
 	);
@@ -30,6 +32,7 @@ module hamming_encoder_tb;
 		CLK = 0;
 		nRST = 0;
 		in= 34'h0563ac3af;
+		en=1;
 
 		// Wait 10 ns for global reset to finish
 		#10;

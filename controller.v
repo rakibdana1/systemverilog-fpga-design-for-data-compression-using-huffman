@@ -62,6 +62,7 @@ module controller(CLK,nRST,in,out);
 	end
 	
 	wire [23:0] nodes[0:12];
+	reg done;
 	//Building Huffman tree
 	build_tree bt (
 		.CLK(CLK), 
@@ -69,7 +70,8 @@ module controller(CLK,nRST,in,out);
 		.freq(sorted),
 		.chars(charsOut), 
 		.id(id),
-		.nodes(nodes)
+		.nodes(nodes),
+		.done(done)
 	);
 	
 	wire [6:0] code[0:6]; //[6:0] max code length <= unique characters
@@ -98,9 +100,10 @@ module controller(CLK,nRST,in,out);
 	
 	reg [1:58] out; // 7*8+2=58
 	// Hamming encoding
-	hamming_encoder uut (
+	hamming_encoder he (
 		.CLK(CLK), 
 		.nRST(nRST), 
+		.en(done),
 		.in(compress),
 		.out(out)
 	);
