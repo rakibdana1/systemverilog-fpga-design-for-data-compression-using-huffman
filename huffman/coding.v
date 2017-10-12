@@ -31,7 +31,7 @@ module coding(CLK,nRST,code,codeLen,compress,length);
 	always @ (posedge CLK or negedge nRST)begin
 	 	if(~nRST)begin
 			temp_character= 7'd0;
-			compress= 52'd0;
+			compress= 34'd0;
 		end 
 		else begin
 			chars[0] = 7'b1111001;//y

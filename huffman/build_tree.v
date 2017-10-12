@@ -270,14 +270,23 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 	);
 
 //********* STEP-5: *************
+	integer a;
+	initial begin
+		// Initialize Inputs
+		a=0;
+	end
 	always @ (posedge CLK or negedge nRST) begin 
 		if(!nRST) begin
 			// init
 		end 
 		else begin 
+			a=a+1;
 			id12=8'd12;
 			freq_temp1= sorted_4[0];
 			freq_temp2= sorted_4[1];
+			if(a==120) begin
+			done=1;
+			end
 		end
 	end		
 
@@ -337,7 +346,6 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 			id13=8'hff;
 			freq_temp1= sorted_5[0];
 			freq_temp2= sorted_5[1];
-			done=1;
 		end
 	end		
 	// Add two least frequncy and get it on wire new_freq_6

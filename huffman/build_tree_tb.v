@@ -55,7 +55,7 @@ module build_tree_test;
 		id[4] = 8'd5;
 		id[5] = 8'd6;
 		id[6] = 8'd7;
-		#10;
+		#100;
 		nRST = 1;
 	end
 	parameter DELAY = 1;
