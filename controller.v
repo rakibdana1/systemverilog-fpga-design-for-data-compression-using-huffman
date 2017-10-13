@@ -7,7 +7,7 @@
 `include "huffman/coding.v"
 `include "hamming/hamming_encoder.v"
 //////////////////////////////////////////////////////////////////////////////////
-// Controller
+// Controller Module of Sender Side Unit
 //
 // Mohammad Rakib
 // M. Engg. ICT, IICT
@@ -74,7 +74,7 @@ module controller(CLK,nRST,in,out);
 		.done(done)
 	);
 	
-	wire [6:0] code[0:6]; //[6:0] max code length <= unique characters
+	wire [6:0] code[0:6]; //[6:0] max code length <= num of unique characters
 	wire [6:0] codeLen[0:6];
 	// Generate huffman codes
 	generate_code gc (

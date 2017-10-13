@@ -2,8 +2,8 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 // Hamming(7,4) Encoder
-// in: 4 bit input data
-// hammingCode: Hamming(7, 4) code
+// in: Huffman compressed data
+// out: Hamming(7, 4) encoded compressed data
 //
 // Mohammad Rakib
 // M. Engg. ICT, IICT
@@ -27,7 +27,6 @@ module hamming_encoder(CLK,nRST,en,in,out);
 		end else if(en==0) begin
 		end
 		else begin
-			//@(en == 0);  // Wait till en goes high
 			j=0;
 			k=0;
 			outTemp= 58'd0;

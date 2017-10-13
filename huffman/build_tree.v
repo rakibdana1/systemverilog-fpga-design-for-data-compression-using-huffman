@@ -2,7 +2,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 // Build huffman tree
 // freq: Sorted frequency array 
-// chars: character array, id: id of each symbol
+// chars: character array, 
+// id: id of each symbol[0-255]
 // nodes: Nodes array of generated Huffman tree as output
 //
 // Mohammad Rakib
@@ -16,19 +17,14 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 	input [6:0] chars[0:6];
 	input [7:0] id[0:6];
 
-	output [23:0] nodes[0:12];//Not considring register for this output.
+	output [23:0] nodes[0:12];
 	output done;
 
 	//to calculate temp frequencies in huffman tree
-	wire [6:0] new_freq_1; 
-	wire [6:0] new_freq_2;
-	wire [6:0] new_freq_3;
-	wire [6:0] new_freq_4;
-	wire [6:0] new_freq_5;
-	wire [6:0] new_freq_6;
-
-   // to store temp frequencies in huffman tree
+	wire [6:0] new_freq_1,new_freq_2,new_freq_3;
+	wire [6:0] new_freq_4,new_freq_5,new_freq_6;
 	reg[6:0] freq_temp1, freq_temp2;
+
 	reg[7:0] id8,id9,id10,id11,id12,id13;
 	integer i,j;
 	reg done;
@@ -36,7 +32,6 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 	// Add two least frequncy and get it on wire new_freq_1
 	always @ (posedge CLK  or negedge nRST) begin 
 		if(!nRST) begin
-			// init
 		end 
 		else begin 
 			done=0;
@@ -67,7 +62,6 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 
 	always @ (posedge CLK or negedge nRST) begin 
 		if(!nRST) begin
-			// init
 		end 
 		else begin 
 			freq_1[0] <= new_freq_1;
@@ -95,7 +89,6 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 //********* STEP-2: *************
 	always @ (posedge CLK or negedge nRST) begin 
 		if(!nRST) begin
-			// init
 		end 
 		else begin 
 			id9=8'd9;
@@ -126,7 +119,6 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 	
 	always @ (posedge CLK or negedge nRST) begin 
 		if(!nRST) begin
-			// init
 		end 
 		else begin 
 			freq_2[0]=new_freq_2;
@@ -154,7 +146,6 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 //********* STEP-3: *************	
 	always @ (posedge CLK or negedge nRST) begin 
 		if(!nRST) begin
-			// init
 		end 
 		else begin 
 			id10=8'd10;
@@ -185,7 +176,6 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 	
 	always @ (posedge CLK or negedge nRST) begin 
 		if(!nRST) begin
-			// init
 		end 
 		else begin 
 			freq_3[0]= new_freq_3;
@@ -213,7 +203,6 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 //********* STEP-4: *************
 	always @ (posedge CLK or negedge nRST) begin 
 		if(!nRST) begin
-			// init
 		end 
 		else begin 
 			id11=8'd11;
@@ -244,7 +233,6 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 	
 	always @ (posedge CLK or negedge nRST) begin
 		if(!nRST) begin
-			// init
 		end 
 		else begin 
 			freq_4[0]= new_freq_4;
@@ -272,7 +260,6 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 //********* STEP-5: *************
 	integer a;
 	initial begin
-		// Initialize Inputs
 		a=0;
 	end
 	always @ (posedge CLK or negedge nRST) begin 
@@ -284,8 +271,8 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 			id12=8'd12;
 			freq_temp1= sorted_4[0];
 			freq_temp2= sorted_4[1];
-			if(a==120) begin
-			done=1;
+			if(a==80) begin
+			done=1;//Synchronization for Controller Module
 			end
 		end
 	end		
@@ -312,7 +299,6 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 	
 	always @ (posedge CLK or negedge nRST) begin 
 		if(!nRST) begin
-			// init
 		end 
 		else begin 
 			freq_5[0]= new_freq_5;
@@ -340,7 +326,6 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 	//********* STEP-6: *************
 	always @ (posedge CLK or negedge nRST) begin 
 		if(!nRST) begin
-			// init
 		end 
 		else begin 
 			id13=8'hff;
@@ -357,16 +342,6 @@ module build_tree(CLK,nRST,freq,chars,id,nodes,done);
 		.SUM(new_freq_6)
 	);
 
-/* 	assign nodes[0] = {id_temp,1'b0,id[0],chars[0]};
-	assign nodes[1] = {id_temp,1'b1,id[1],chars[1]};
-	assign nodes[2] = {id_temp,1'b0,idOut_1[0],charsOut_1[0]};
-	assign nodes[3] = {id_temp,1'b1,idOut_1[1],charsOut_1[1]};
-	assign nodes[4] = {id_temp,1'b0,idOut_2[0],charsOut_2[0]};
-	assign nodes[5] = {id_temp,1'b1,idOut_2[1],charsOut_2[1]};
-	assign nodes[6] = {id_temp,1'b0,idOut_3[0],charsOut_3[0]};
-	assign nodes[7] = {id_temp,1'b1,idOut_3[1],charsOut_3[1]};
-	assign nodes[8] = {id_temp,1'b0,idOut_4[0],charsOut_4[0]};
-	assign nodes[9] = {id_temp,1'b1,idOut_4[1],charsOut_4[1]}; */
 	assign nodes[10] = {id13,1'b1,idOut_5[0],charsOut_5[0]};
 	assign nodes[11] = {id13,1'b0,idOut_5[1],charsOut_5[1]};
 	assign nodes[12] = {8'b0000_0000,1'b1,8'b1111_1111,7'b111_1111};//ROOT: id:FF parent:00

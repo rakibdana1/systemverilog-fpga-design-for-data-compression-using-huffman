@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Encode input using Huffman Codes
+// Compress input using Huffman Codes
 //
 // Mohammad Rakib
 // M. Engg. ICT, IICT
@@ -17,10 +17,6 @@ module coding(CLK,nRST,in,chars,code,codeLen,out,length);
 
 	reg [6:0] code[0:6]; //[6:0] max code length <= unique characters
 	reg [6:0] codeLen[0:6];
-	
-	reg [3:0] code_y, code_o;
-	reg [2:0] code_i, code_a, code_sp;
-	reg [1:0] code_h, code_p;
 	reg [6:0] chars[0:6];
 	reg [6:0] temp_character;
 	reg [0:33] out;
@@ -33,43 +29,20 @@ module coding(CLK,nRST,in,chars,code,codeLen,out,length);
 			out= 34'd0;
 		end 
 		else begin
-			code_y=4'b1111;
-			code_o=4'b1110;
-			code_i=3'b010;
-			code_a=3'b011;
-			code_sp=3'b110;
-			code_h=2'b00;
-			code_p=2'b10;
 			j=0;
 			k=90;
 
 			for(i=0;i<13;i=i+1) begin
 				temp_character= 7'd0;
 				temp_character = in[k-:7];
-/* 				case(i)
-				0: temp_character = in[6:0];
-				1: temp_character = in[13:7];
-				2: temp_character = in[20:14];
-				3: temp_character = in[27:21];
-				4: temp_character = in[34:28];
-				5: temp_character = in[41:35];
-				6: temp_character = in[48:42];
-				7: temp_character = in[55:49];
-				8: temp_character = in[62:56];
-				9: temp_character = in[69:63];
-				10: temp_character = in[76:70];
-				11: temp_character = in[83:77];
-				12: temp_character = in[90:84];
-				default:;
-				endcase */
 				case(temp_character)
-				chars[0]: out[j+:4]=code_y;
-				chars[1]: out[j+:4]=code_o;
-				chars[2]: out[j+:3]=code_i;
-				chars[3]: out[j+:3]=code_a;
-				chars[4]: out[j+:3]=code_sp;
-				chars[5]: out[j+:2]=code_h;
-				chars[6]: out[j+:2]=code_p;
+				chars[0]: out[j+:4]=code[0][4:0];
+				chars[1]: out[j+:4]=code[1][4:0];
+				chars[2]: out[j+:3]=code[2][3:0];
+				chars[3]: out[j+:3]=code[3][3:0];
+				chars[4]: out[j+:3]=code[4][3:0];
+				chars[5]: out[j+:2]=code[5][2:0];
+				chars[6]: out[j+:2]=code[6][2:0];
 				default:;
 				endcase
 				case(temp_character)

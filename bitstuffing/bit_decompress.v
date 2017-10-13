@@ -6,9 +6,6 @@
 // M. Engg. ICT, IICT
 //////////////////////////////////////////////////////////////////////////////////
 
-//logic [31: 0] a_vect
-//a_vect[ 0 +: 8] // == a_vect[ 7 : 0]
-//a_vect[15 -: 8] // == a_vect[15 : 8]
 module bit_decompress(CLK,nRST,in,out);
 	input CLK;
 	input nRST;

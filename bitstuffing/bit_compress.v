@@ -1,12 +1,13 @@
 `timescale 1ns / 1ps  //http://vlsi.pro/verilog-timescales/
 
-//////////////////////////////////////////////////////////////////////////////////
-// Discard MSBs of input symbols and return the result in "out"
+////////////////////////////////////////////////////////////////////
+// Bit-stuffing: Discard MSBs of input characters and return the result in "out"
 //
 // Mohammad Rakib
 // M. Engg. ICT, IICT
-//////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
 
+//Note:
 //logic [31: 0] a_vect
 //a_vect[ 0 +: 8] // == a_vect[ 7 : 0]
 //a_vect[15 -: 8] // == a_vect[15 : 8]
@@ -27,7 +28,6 @@ module bit_compress(CLK,nRST,in,out);
 			j=0;
 			k=0;
 			for(i=0;i<13;i=i+1) begin
-				//k= k+1;
 				temp[j+:7]= in[k+:7];
 				j= j+7;
 				k= k+8;

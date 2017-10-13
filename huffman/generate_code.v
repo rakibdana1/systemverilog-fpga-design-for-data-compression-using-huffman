@@ -64,7 +64,6 @@ module generate_code(CLK,nRST,nodes,characters,code,codeLen);
 				end
 				codeLen[i]=1'b0;
 			end
-
 			for(i= 0;i < charCount;i++) begin // For all character we are going to find codeword
 				for(j=0; j<nodeCount; j++) begin
 					tNode= nodes[j];//current node

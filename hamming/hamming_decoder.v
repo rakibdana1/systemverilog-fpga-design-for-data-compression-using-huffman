@@ -2,8 +2,8 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 // Hamming(7,4) Decoder
-// in: 4 bit input data
-// hammingCode: Hamming(7, 4) code
+// in: Hamming Encoded data from Sender Side Unit
+// out: Hamming Decoded data
 //
 // Mohammad Rakib
 // M. Engg. ICT, IICT
@@ -13,9 +13,9 @@ module hamming_decoder(CLK, nRST, in, out, error, error_index);
 	input	nRST;
 	input [1:58] in;
 
-	output reg[0:33]  out;          // corrected message 4 bit
-	output reg[2:0]  error_index[0:7];  // corrected bit number (1-7)
-	output reg[0:7]       error;        // 1 if at least one error has been detected
+	output reg[0:33] out;     // corrected message 
+	output reg[2:0] error_index[0:7];  // corrected bit number (1-7)
+	output reg[0:7] error;        // 1 if at least one error has been detected
 
 
 	reg P1, P2, P4;// parity bits
@@ -65,7 +65,6 @@ module hamming_decoder(CLK, nRST, in, out, error, error_index);
 			out[33]=in[58];
 		end
 	end
-	//assign  hammingCode = out;
 endmodule
 
 
