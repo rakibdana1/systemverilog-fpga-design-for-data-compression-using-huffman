@@ -15,7 +15,7 @@ module hamming_encoder(CLK,nRST,en,in,out);
 	input en;
 	output[1:58] out;
 	
-	reg [0:33] in;
+	reg [33:0] in;
 	reg [1:58] out;
 	reg [1:58] outTemp;
 	reg en;

@@ -13,7 +13,7 @@ module hamming_decoder(CLK, nRST, in, out, error, error_index);
 	input	nRST;
 	input [1:58] in;
 
-	output reg[0:33]  out;          // corrected message 4 bit
+	output reg[33:0]  out;          // corrected message 4 bit
 	output reg[2:0]  error_index[0:7];  // corrected bit number (1-7)
 	output reg[0:7]       error;        // 1 if at least one error has been detected
 

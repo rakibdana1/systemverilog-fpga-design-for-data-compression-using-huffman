@@ -13,19 +13,25 @@ module coding_test;
 	reg CLK;
 	reg nRST;
 	reg [6:0] code[0:6]; //[6:0] max code length <= unique characters
-	reg [6:0] codeLen[0:6];
+	integer codeLen[0:6];
+	reg [6:0] chars[0:6];
 
 	// Outputs
-	wire [0:33] compress;
-	wire integer length;
+	wire [33:0] out;//h0563ac3af
+	wire integer length;//h00000022
+	wire [90:0] in;
+	//Input: "hip hop happy"
+	assign in=91'b110_1000_110_1001_111_0000_010_0000_110_1000_110_1111_111_0000_010_0000_110_1000_110_0001_111_0000_111_0000_111_1001;
 
 	// Instantiate the Unit Under Test (UUT)
 	coding uut (
 		.CLK(CLK), 
 		.nRST(nRST), 
+		.in(in),
+		.chars(chars),
 		.code(code),
 		.codeLen(codeLen),
-		.compress(compress),
+		.out(out),
 		.length(length)
 	);
 
@@ -34,10 +40,34 @@ module coding_test;
 		// Initialize Inputs
 		CLK = 0;
 		nRST = 0;
-		for(i=0; i<7; i++) begin
-			code[i]= 7'b0;
-			codeLen[i]= 7'b0;
-		end
+
+		chars[0] = 7'b1111001;//y
+		code[0]= 7'b0001111;
+		codeLen[0]= 4;
+		
+		chars[1] = 7'b1101111;//o
+		code[1]= 7'b0001110;
+		codeLen[i]= 4;
+		
+		chars[2] = 7'b1101001;//i
+		code[2]= 7'b0000010;
+		codeLen[i]= 3;
+		
+		chars[3] = 7'b1100001;//a
+		code[3]= 7'b0000011;
+		codeLen[3]= 3;
+		
+		chars[4] = 7'b0100000;// 
+		code[4]= 7'b0000110;
+		codeLen[4]= 3;
+		
+		chars[5] = 7'b1101000;//h
+		code[5]= 7'b0000000;
+		codeLen[5]= 2;
+		
+		chars[6] = 7'b1110000;//p
+		code[6]= 7'b0000010;
+		codeLen[6]= 2;
 		#10;
 		nRST = 1;
 

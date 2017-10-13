@@ -18,9 +18,9 @@ module generate_code(CLK,nRST,nodes,characters,code,codeLen);
 	input [23:0] nodes[0:12]; // total characters
 
 	output [6:0] code[0:6]; //max code length <= unique characters
-	output [6:0] codeLen[0:6];
+	output codeLen[0:6];
 	reg [6:0] code[0:6]; //[charCount:0] max code length <= unique characters
-	reg [6:0] codeLen[0:6];
+	integer codeLen[0:6];
 	
 	reg[6:0] tc;//temprary code reg. Holds a single bit in each byte
 	integer len=0;//code length
@@ -62,7 +62,7 @@ module generate_code(CLK,nRST,nodes,characters,code,codeLen);
 				for(j=0; j<charCount; j++) begin
 					code[i][j]= 1'b0;
 				end
-				codeLen[i]=1'b0;
+				codeLen[i]=0;
 			end
 
 			for(i= 0;i < charCount;i++) begin // For all character we are going to find codeword

@@ -75,7 +75,7 @@ module controller(CLK,nRST,in,out);
 	);
 	
 	wire [6:0] code[0:6]; //[6:0] max code length <= unique characters
-	wire [6:0] codeLen[0:6];
+	integer codeLen[0:6];
 	// Generate huffman codes
 	generate_code gc (
 		.CLK(CLK), 
@@ -86,7 +86,7 @@ module controller(CLK,nRST,in,out);
 		.codeLen(codeLen)
 	);
 	
-	wire [0:33] compress;
+	wire [33:0] huffmanCompressed
 	wire integer length;
 	// Huffman compression with generated code
 	coding compression (
@@ -94,18 +94,19 @@ module controller(CLK,nRST,in,out);
 		.nRST(nRST), 
 		.code(code),
 		.codeLen(codeLen),
-		.compress(compress),
+		.out(huffmanCompressed),
 		.length(length)
 	);
-	
 	reg [1:58] out; // 7*8+2=58
 	// Hamming encoding
 	hamming_encoder he (
 		.CLK(CLK), 
 		.nRST(nRST), 
 		.en(done),
-		.in(compress),
+		.in(huffmanCompressed),
 		.out(out)
 	);
+	
+
 endmodule
 

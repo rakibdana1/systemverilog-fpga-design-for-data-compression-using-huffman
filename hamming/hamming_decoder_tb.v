@@ -15,7 +15,7 @@ module hamming_decoder_tb;
 
 	// Outputs
 	reg [1:58] in;
-	wire [0:33] out;
+	wire [33:0] out;
 	wire [0:7] errorFound;
 	wire [2:0] errorIndex[0:7];//we have 8 hamming codes
 

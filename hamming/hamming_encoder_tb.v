@@ -12,7 +12,7 @@ module hamming_encoder_tb;
 	// Inputs
 	reg CLK;
 	reg nRST;
-	reg [0:33] in;
+	reg [33:0] in;
 	reg en;
 
 	// Outputs

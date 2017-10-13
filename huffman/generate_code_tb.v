@@ -17,7 +17,7 @@ module generate_code_test;
 
 	// Outputs
 	wire [6:0] code[0:6]; //[6:0] max code length <= unique characters
-	wire [6:0] codeLen[0:6];
+	integer codeLen[0:6];
 
 	// Instantiate the Unit Under Test (UUT)
 	generate_code uut (
