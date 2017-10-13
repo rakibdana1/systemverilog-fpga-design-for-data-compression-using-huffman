@@ -86,15 +86,17 @@ module controller(CLK,nRST,in,out);
 		.codeLen(codeLen)
 	);
 	
-	wire [0:33] compress;
+	wire [0:33] huffmanCompress;
 	wire integer length;
 	// Huffman compression with generated code
 	coding compression (
 		.CLK(CLK), 
 		.nRST(nRST), 
+		.in(bitCompressOut),
+		.chars(charsOut),
 		.code(code),
 		.codeLen(codeLen),
-		.compress(compress),
+		.out(huffmanCompress),
 		.length(length)
 	);
 	
@@ -104,7 +106,7 @@ module controller(CLK,nRST,in,out);
 		.CLK(CLK), 
 		.nRST(nRST), 
 		.en(done),
-		.in(compress),
+		.in(huffmanCompress),
 		.out(out)
 	);
 endmodule
