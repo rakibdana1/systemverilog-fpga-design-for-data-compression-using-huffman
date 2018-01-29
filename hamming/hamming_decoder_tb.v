@@ -15,7 +15,7 @@ module hamming_decoder_tb;
 
 	// Outputs
 	reg [1:58] in;
-	wire [0:33] out;
+	wire [0:33] out;//34h0563ac3af 
 	wire [0:7] errorFound;
 	wire [2:0] errorIndex[0:7];//we have 8 hamming codes
 
@@ -33,7 +33,7 @@ module hamming_decoder_tb;
 		// Initialize Inputs
 		CLK = 0;
 		nRST = 0;
-	 	in = 58'h34a5e0599802ccf;
+	 	in = 58'h34b5e1599803ccf;//58'h34a5e0599802ccf
 
 		// Wait 10 ns for global reset to finish
 		#10;
