@@ -26,4 +26,4 @@ Create a project on Modelsim and add all the 'sv' files in the repo. Compile all
 This project is licensed under the MIT License
 
 ### Who do I talk to? ###
-Rakib Mohammad, rakibdana@gmail.com
+Rakib Mohammad, rakibsr@gmail.com
